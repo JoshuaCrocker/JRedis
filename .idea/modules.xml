@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JRedis-Client/JRedis-Client.iml" filepath="$PROJECT_DIR$/JRedis-Client/JRedis-Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JRedis-Server/JRedis-Server.iml" filepath="$PROJECT_DIR$/JRedis-Server/JRedis-Server.iml" />
+    </modules>
+  </component>
+</project>
