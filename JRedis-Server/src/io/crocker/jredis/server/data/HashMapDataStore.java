@@ -56,4 +56,9 @@ public class HashMapDataStore extends DataStore {
         this.data.remove(key);
         return true;
     }
+
+    @Override
+    public boolean has(String key) {
+        return this.data.containsKey(key);
+    }
 }

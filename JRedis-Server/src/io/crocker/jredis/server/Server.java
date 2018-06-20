@@ -55,6 +55,7 @@ public class Server {
                 case Command.LIST:
                 case Command.INCREMENT:
                 case Command.DECREMENT:
+                case Command.ADD:
                     String response = processor.process(splitString);
                     out.print(
                             response.replace("\n", "{new_line}")

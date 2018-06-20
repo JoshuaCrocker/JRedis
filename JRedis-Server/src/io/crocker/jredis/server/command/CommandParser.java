@@ -43,6 +43,10 @@ public class CommandParser {
             return true;
         }
 
+        if (command.equals(Command.ADD) && this.arguments.length >= 2) {
+            return true;
+        }
+
         return false;
     }
 

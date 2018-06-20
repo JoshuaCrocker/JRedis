@@ -1,7 +1,6 @@
 package io.crocker.jredis.server.command;
 
 import io.crocker.jredis.server.data.DataStore;
-import io.crocker.jredis.server.data.HashMapDataStore;
 import io.crocker.jredis.server.data.exception.MissingKeyException;
 
 import java.util.Iterator;
@@ -25,7 +24,7 @@ public class CommandProcessor {
     private CommandProcessor() {
     }
 
-    public CommandProcessor(HashMapDataStore store) {
+    public CommandProcessor(DataStore store) {
         this.store = store;
     }
 
@@ -51,9 +50,32 @@ public class CommandProcessor {
                 return this.processIncrement(parser.getArguments());
             case Command.DECREMENT:
                 return this.processDecrement(parser.getArguments());
+            case Command.ADD:
+                return this.processAddition(parser.getArguments());
         }
 
         return CommandProcessor.UNIMPLEMENTED_COMMAND;
+    }
+
+    private String processAddition(String[] arguments) {
+        int sum = 0;
+
+        for (int i = 0; i < arguments.length; i++) {
+            try {
+                if (this.store.has(arguments[i])) {
+                    sum += Integer.parseInt(
+                            this.store.get(arguments[i]).toString()
+                    );
+                } else {
+                    sum += Integer.parseInt(arguments[i]);
+                }
+            } catch (MissingKeyException e) {
+                e.printStackTrace();
+                return CommandProcessor.INVALID_COMMAND;
+            }
+        }
+
+        return String.valueOf(sum);
     }
 
     private String processIncrement(String[] arguments) {

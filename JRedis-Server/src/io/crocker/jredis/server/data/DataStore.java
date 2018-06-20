@@ -14,4 +14,6 @@ public abstract class DataStore {
     public abstract int flush();
 
     public abstract boolean delete(String key);
+
+    public abstract boolean has(String key);
 }

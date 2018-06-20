@@ -26,5 +26,9 @@ public class Command {
 
     public static final String DECREMENT = "DECR";
 
-//    public static final String ADD = "ADD";
+    public static final String ADD = "ADD";
+
+    // TODO implement SUBTRACT
+    // TODO implement MULTIPLY
+    // TODO implement DIVIDE
 }
