@@ -25,8 +25,9 @@ public class Client {
 
             out.println(input);
             response = in.readLine();
+            response = response.replace("{new_line}", "\n");
 
-            System.out.println("[server] " + response);
+            System.out.print(response);
             System.out.println("\n");
         } while (!response.equals("Goodbye!"));
 

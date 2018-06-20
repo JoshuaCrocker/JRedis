@@ -1,5 +1,9 @@
 package io.crocker.jredis.server;
 
+import io.crocker.jredis.server.command.Command;
+import io.crocker.jredis.server.data.HashMapDataStore;
+import io.crocker.jredis.server.command.CommandProcessor;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +20,7 @@ public class Server {
     /**
      * Creates the server.
      *
-     * @throws IOException
+     * @throws IOException Socket errors
      */
     public Server() throws IOException {
         // Start up server
@@ -31,14 +35,31 @@ public class Server {
         PrintWriter out = new PrintWriter(client.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
+        HashMapDataStore store = new HashMapDataStore();
+        CommandProcessor processor = new CommandProcessor(store);
+
         do {
             input = in.readLine();
+            String[] splitString = input.split(" +");
 
             System.out.println("Command received: " + input);
 
-            switch (input) {
-                case Commands.EXIT:
+            switch (splitString[0]) {
+                case Command.EXIT:
                     out.println("Goodbye!");
+                    break;
+                case Command.GET:
+                case Command.SET:
+                case Command.DELETE:
+                case Command.FLUSH:
+                case Command.LIST:
+                case Command.INCREMENT:
+                case Command.DECREMENT:
+                    String response = processor.process(splitString);
+                    out.print(
+                            response.replace("\n", "{new_line}")
+                    );
+                    out.println();
                     break;
                 default:
                     out.println("Unrecognised command: " + input);
@@ -46,7 +67,7 @@ public class Server {
             }
 
             out.flush();
-        } while (!input.equals(Commands.EXIT));
+        } while (!input.equals(Command.EXIT));
 
         System.out.println("Shutting server down");
 
